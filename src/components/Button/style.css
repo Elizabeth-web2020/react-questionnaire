@@ -1,0 +1,20 @@
+.container input[type="submit"], 
+.container input[type="reset"] {
+  margin-top: 30px;
+  background: #858585;
+  border-bottom: 4px solid #858585;
+  color: white;
+  font-size: 14px;
+}
+.container input[type="reset"] {
+  margin-right: 50px;
+}
+.container input[type="reset"]:active {
+  background: pink;
+}
+.container input[type="submit"]:active {
+  background: lightgreen;
+}
+.buttons {
+  display: flex;
+}
