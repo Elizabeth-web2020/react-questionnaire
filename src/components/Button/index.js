@@ -6,8 +6,12 @@ export default class index extends Component {
   render(props) {
     return (
       <div className='buttons'>
-       {this.props.buttons.map((item) => (
-          <input type={item[1]} value={item[0]} />
+       {this.props.buttons.map((item, i) => (
+          <div key={i}>
+            {item.buttonType === 'reset'
+            ? <button type={item.buttonType} onClick={this.props.resetFn}>{item.buttonName}</button>
+            : <button type={item.buttonType}>{item.buttonName}</button> }
+          </div>
         ))}
       </div>
     );

@@ -8,8 +8,25 @@ export default class index extends Component {
       <div className='section'>
         {this.props.inputs.map((item, i) => (
           <div key={i}>
-            <label>{item[0]}:</label>
-            {item[2] === 'input' ? <input type={item[1]} placeholder={item[0]} /> : <textarea placeholder={item[0]} rows="7"></textarea>} 
+            <label>{item.label}:</label>
+            {item.name === 'phone'
+            ? <input type={item.type} name={item.name} value={this.props.formValues[item.name]} placeholder={item.label} onChange={this.props.handleChange} />
+            : <input type={item.type} name={item.name} value={this.props.formValues[item.name]} placeholder={item.label} onChange={this.props.handleChange} />}
+            {this.props.formErrors[item.name] 
+            ? <p className='error'>{this.props.formErrors[item.name]}</p>
+            : ''}
+          </div>
+        ))}
+
+        {this.props.textareas.map((item, i) => (
+          <div key={i}>
+            <label>{item.label}:</label>
+            {item.component === 'textarea' 
+            ? <textarea name={item.name} placeholder={item.label} value={this.props.formValues[item.name]} onChange={this.props.handleChange} rows="7"></textarea> 
+            : ''} 
+            {this.props.formErrors[item.name] 
+            ? <p className='error'>{this.props.formErrors[item.name]}</p>
+            : ''}
           </div>
         ))}
       </div>

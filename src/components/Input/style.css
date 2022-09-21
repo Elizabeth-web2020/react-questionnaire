@@ -22,3 +22,6 @@ label {
 .section {
   width: 100%;
 }
+.error {
+  color: red;
+}
