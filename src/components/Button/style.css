@@ -10,9 +10,6 @@
   border: none;
   border-radius: 25px;
 }
-/* .container button[type="reset"] {
-  margin-right: 50px;
-} */
 .container button[type="reset"]:active {
   background: pink;
 }
