@@ -5,7 +5,7 @@ import Answers from '../Answers/index';
 
 import './style.css';
 
-function Index() {
+function Form() {
 
   const initialValue = { name: '', secondName: '', dateOfBirth: '', phone: '', site: '', aboutYourself: '', stack: '', lastProject: ''};
   const inputsMassive = [{label: 'Name', name: 'name', type: 'text', component: 'input'}, 
@@ -91,7 +91,7 @@ function Index() {
   )
 }
 
-export default Index;
+export default Form;
 
   
 

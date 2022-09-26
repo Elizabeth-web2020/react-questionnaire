@@ -3,7 +3,7 @@ import MaskedInput from 'react-text-mask';
 
 import './style.css';
 
-function index({inputs, textareas, formValues, formErrors, textareaLength, maxTextareaLength, handleChange, textareaLengthHandler}) {
+function Input({inputs, textareas, formValues, formErrors, textareaLength, maxTextareaLength, handleChange, textareaLengthHandler}) {
   return (
     <div className='section'>
         {inputs.map((item, i) => (
@@ -43,4 +43,4 @@ function index({inputs, textareas, formValues, formErrors, textareaLength, maxTe
   )
 }
 
-export default index;
+export default Input;

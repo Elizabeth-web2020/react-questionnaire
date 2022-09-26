@@ -1,7 +1,7 @@
 import React from 'react';
 import './style.css';
 
-function index({buttons, resetFn}) {
+function Button({buttons, resetFn}) {
   return (
     <div className='buttons'>
        {buttons.map((item, i) => (
@@ -15,4 +15,4 @@ function index({buttons, resetFn}) {
   )
 }
 
-export default index;
+export default Button;

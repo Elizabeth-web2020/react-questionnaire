@@ -1,7 +1,7 @@
 import React from 'react';
 import './style.css';
 
-function index({inputs, textareas, formValues}) {
+function Answers({inputs, textareas, formValues}) {
   return (
     <div className='answers'>
         <div className='content'>
@@ -21,5 +21,5 @@ function index({inputs, textareas, formValues}) {
   )
 }
 
-export default index;
+export default Answers;
 
