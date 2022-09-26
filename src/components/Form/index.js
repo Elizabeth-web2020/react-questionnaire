@@ -1,79 +1,61 @@
-import React, { Component } from 'react';
+import React, {useState} from "react";
 import Input from '../Input/index';
 import Button from '../Button/index';
 import Answers from '../Answers/index';
 
 import './style.css';
 
-class index extends Component {
-  constructor() {
-    super();
+function Form() {
 
-    const initialValue = { name: '', secondName: '', dateOfBirth: '', phone: '', site: '', aboutYourself: '', stack: '', lastProject: ''};
+  const initialValue = { name: '', secondName: '', dateOfBirth: '', phone: '', site: '', aboutYourself: '', stack: '', lastProject: ''};
+  const inputsMassive = [{label: 'Name', name: 'name', type: 'text', component: 'input'}, 
+    {label: 'Second Name', name: 'secondName', type: 'text', component: 'input'},
+    {label: 'Date Of Birth', name: 'dateOfBirth', type: 'date', component: 'input'},
+    {label: 'Phone Number', name: 'phone', type: 'phone', component: 'input'},
+    {label: 'Site Address', name: 'site', type: 'text', component: 'input'}];
+  const textareasMassive = [{label: 'About Yourself', name: 'aboutYourself', type: 'text', component: 'textarea'},
+    {label: 'Technology Stack', name: 'stack', type: 'text', component: 'textarea'},
+    {label: 'Description of the latest project', name: 'lastProject', type: 'text', component: 'textarea'}];
+  const buttonsMassive = [{buttonName: 'Cancel', buttonType: 'reset'}, {buttonName: 'Submit', buttonType: 'submit'}];
+    
+  const [inputs, setInputs] = useState(inputsMassive)
+  const [textareas, setTextareas] = useState(textareasMassive)
+  const [buttons, setButtons] = useState(buttonsMassive)
+  const [formValues, setFormValues] = useState(initialValue)
+  const [formErrors, setFormErrors] = useState({})
+  const [maxTextareaLength, setMaxTextareaLength] = useState(600)
+  const [textareaLength, setTextareaLength] = useState({aboutYourself: 0, stack: 0, lastProject: 0})
+  const [isSubmit, setIsSubmit] = useState(false)
+  const [answersFormVisibility, setAnswersFormVisibility] = useState(false)
 
-    this.state = {
-    inputs: [{label: 'Name', name: 'name', type: 'text', component: 'input'}, 
-      {label: 'Second Name', name: 'secondName', type: 'text', component: 'input'},
-      {label: 'Date Of Birth', name: 'dateOfBirth', type: 'date', component: 'input'},
-      {label: 'Phone Number', name: 'phone', type: 'phone', component: 'input'},
-      {label: 'Site Address', name: 'site', type: 'text', component: 'input'}],
-    textareas: [{label: 'About Yourself', name: 'aboutYourself', type: 'text', component: 'textarea'},
-      {label: 'Technology Stack', name: 'stack', type: 'text', component: 'textarea'},
-      {label: 'Description of the latest project', name: 'lastProject', type: 'text', component: 'textarea'}],
-    buttons: [{buttonName: 'Cancel', buttonType: 'reset'}, {buttonName: 'Submit', buttonType: 'submit'}],
-    formValues: initialValue,
-    formErrors: {},
-    maxTextareaLength: 600,
-    textareaLength: {aboutYourself: 0, stack: 0, lastProject: 0},
-    isSubmit: false,
-    answersFormVisibility: false
-    };
-
-    this.textareaLengthHandler = this.textareaLengthHandler.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.validateFn = this.validateFn.bind(this);
-    this.resetFn = this.resetFn.bind(this);
-  }
-
-  textareaLengthHandler = (e) => {
+  const textareaLengthHandler = (e) => {
     const value = e.target.value;
     const name = e.target.name;
 
-    this.setState(prevState => ({
-      textareaLength: {                   
-        ...prevState.textareaLength,    
-        [name]: value.length     
-      }
-    }))
-  };
+    setTextareaLength({...textareaLength, [name]: value.length})
+  }
 
-  handleChange = (e) => {
+  const handleChange = (e) => {
     let { name, value } = e.target;
 
-    this.setState(prevState => ({
-      formValues: {                   
-          ...prevState.formValues,    
-          [name]: value.trim()      
-      }
-    }))
-  };
+    setFormValues({...formValues, [name]: value.trim()})
+  }
 
-  handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     
-    let result = this.validateFn(this.state.formValues);
+    const answersFormVisibilityCondition = Object.keys(formErrors).length === 0 && isSubmit && textareaLength['aboutYourself'] <= maxTextareaLength && textareaLength['stack'] <= maxTextareaLength && textareaLength['lastProject'] <= maxTextareaLength;
+    let result = validateFn(formValues);
 
-    this.setState({ isSubmit: true});
-    this.setState({ formErrors: result}, () => {
-      const answersFormVisibilityCondition = Object.keys(this.state.formErrors).length === 0 && this.state.isSubmit && this.state.textareaLength['aboutYourself'] <= this.state.maxTextareaLength && this.state.textareaLength['stack'] <= this.state.maxTextareaLength && this.state.textareaLength['lastProject'] <= this.state.maxTextareaLength;
+    setIsSubmit(true)
+    setFormErrors(result)
 
-      if (answersFormVisibilityCondition) {
-        this.setState({ answersFormVisibility: true});
-      };
-    });
-  };
+    if (answersFormVisibilityCondition) {
+      setAnswersFormVisibility(true);
+    };
+  }
 
-  validateFn = (values) => {
+  const validateFn = (values) => {
     const errors = {};
     const regexName = /^[A-Z]/;
     const regexSite = /^(https:\/\/www\.|https:\/\/)[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/mg;
@@ -88,28 +70,29 @@ class index extends Component {
     if (!values.lastProject) {errors.lastProject = 'Поле Описание последнего проекта пустое. Заполните пожалуйста!'}
 
     return errors;
-  };
-
-  resetFn = () => {
-    this.setState({ formValues: { name: '', secondName: '', dateOfBirth: '', phone: '', site: '', aboutYourself: '', stack: '', lastProject: ''}});
-    this.setState({ formErrors: {}});
-    this.setState({ isSubmit: false});
-  };
-
-
-  render() {
-    return (
-      <div className='main'>
-        { !this.state.answersFormVisibility || !this.state.isSubmit
-        ? <form className='container' onSubmit={this.handleSubmit}>
-            <h3>Create a questionnaire</h3>
-            <Input inputs={this.state.inputs} textareas={this.state.textareas} formValues={this.state.formValues} formErrors={this.state.formErrors} textareaLength={this.state.textareaLength} maxTextareaLength={this.state.maxTextareaLength} handleChange={this.handleChange} textareaLengthHandler={this.textareaLengthHandler} />
-            <Button buttons={this.state.buttons} resetFn={this.resetFn} />
-          </form>
-        : <Answers inputs={this.state.inputs} textareas={this.state.textareas} formValues={this.state.formValues} />}
-      </div>
-    );
   }
+
+  const resetFn = () => {
+    setFormValues({ name: '', secondName: '', dateOfBirth: '', phone: '', site: '', aboutYourself: '', stack: '', lastProject: ''})
+    setFormErrors({})
+    setIsSubmit(false)
+  }
+
+  return (
+    <div className='main'>
+        { !answersFormVisibility || !isSubmit
+        ? <form className='container' onSubmit={handleSubmit}>
+            <h3>Create a questionnaire</h3>
+            <Input inputs={inputs} textareas={textareas} formValues={formValues} formErrors={formErrors} textareaLength={textareaLength} maxTextareaLength={maxTextareaLength} handleChange={handleChange} textareaLengthHandler={textareaLengthHandler} />
+            <Button buttons={buttons} resetFn={resetFn} />
+          </form>
+        : <Answers inputs={inputs} textareas={textareas} formValues={formValues} />}
+    </div>
+  )
 }
 
-export default index;
+export default Form;
+
+  
+
+      

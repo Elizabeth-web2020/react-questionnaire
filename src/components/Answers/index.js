@@ -1,26 +1,25 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './style.css';
 
-class index extends Component {
-  render() {
-    return (
-      <div className='answers'>
+function Answers({inputs, textareas, formValues}) {
+  return (
+    <div className='answers'>
         <div className='content'>
-          <h3>{this.props.formValues['name']} {this.props.formValues['secondName']}</h3>
-          {this.props.inputs.map((item, i) => (
+          <h3>{formValues['name']} {formValues['secondName']}</h3>
+          {inputs.map((item, i) => (
             <div key={i} className='content-item'>
-              <div>{item.label}: {this.props.formValues[item.name]}</div>
+              <div>{item.label}: {formValues[item.name]}</div>
             </div>
           ))}
-          {this.props.textareas.map((item, i) => (
+          {textareas.map((item, i) => (
             <div key={i} className='content-item'>
-              <div>{item.label}: {this.props.formValues[item.name]}</div>
+              <div>{item.label}: {formValues[item.name]}</div>
             </div>
           ))}
         </div>
-      </div>
-    );
-  }
+    </div>
+  )
 }
 
-export default index;
+export default Answers;
+
