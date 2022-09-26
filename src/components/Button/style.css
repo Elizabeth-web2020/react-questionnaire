@@ -1,20 +1,23 @@
-.container input[type="submit"], 
-.container input[type="reset"] {
+.container button[type="submit"], 
+.container button[type="reset"] {
+  width: 250px;
+  height: 50px;
   margin-top: 30px;
   background: #858585;
   border-bottom: 4px solid #858585;
   color: white;
   font-size: 14px;
+  border: none;
+  border-radius: 25px;
 }
-.container input[type="reset"] {
-  margin-right: 50px;
-}
-.container input[type="reset"]:active {
+.container button[type="reset"]:active {
   background: pink;
 }
-.container input[type="submit"]:active {
+.container button[type="submit"]:active {
   background: lightgreen;
 }
 .buttons {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
